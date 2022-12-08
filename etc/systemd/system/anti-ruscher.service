@@ -1,0 +1,10 @@
+[Unit]
+Description=Anti-Ruscher
+
+[Service]
+Type=simple
+StandardOutput=tty
+ExecStart=/usr/bin/anti-ruscher
+
+[Install]
+WantedBy=multi-user.target 

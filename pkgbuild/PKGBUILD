@@ -1,0 +1,17 @@
+# Maintainer: Bruno Goncalves <bigbruno@gmail.com>
+
+pkgname=anti-ruscher
+pkgver=$(date +%y.%m.%d)
+pkgrel=$(date +%H%M)
+arch=('any')
+license=('')
+url="https://github.com/biglinux/anti-ruscher"
+pkgdesc="Anti-Ruscher system"
+source=('git+${url}')
+sha256sums=('SKIP')
+install=${pkgname}.install
+
+package() {
+    cp -r "${srcdir}/${pkgname}/usr/" "${pkgdir}/"
+}
+

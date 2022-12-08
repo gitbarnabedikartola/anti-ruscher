@@ -1,0 +1,58 @@
+#!/bin/bash
+
+RED='\033[0;41m'
+
+#Pegar a data e hora de /etc
+data_etc=`ls -lact --full-time /etc |awk 'END {print $6,$7}' | cut -d "." -f1`
+
+#Pegar a data e hora atual
+data_atual=`date +%Y-%m-%d\ %H:%M:%S`
+
+#Comparar as datas
+diferenca=$(($(date -d "$data_atual" +%s) - $(date -d "$data_etc" +%s)))
+
+if [ $diferenca -gt 86400 ];then
+    yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+    --align=center \
+    --field=$"<b>Sistema de desenvolvimento instalado a mais de 1 dia, restão 2 dias de testes.</b>
+    :LBL" \
+    --button=$" OK":0 \
+    --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+    --window-icon=emblem-warning
+        if [ "$?" != "0" ];then
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 1 dia, restão 2 dias de testes."
+            sleep 30
+        fi
+fi
+
+if [ $diferenca -gt 172800 ];then
+    yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+    --align=center \
+    --field=$"<b>Sistema de desenvolvimento instalado a mais de 2 dias, restão 1 dia de testes.</b>
+    :LBL" \
+    --button=$" OK":0 \
+    --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+    --window-icon=emblem-warning
+        if [ "$?" != "0" ];then
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restão 1 dia de testes."
+            sleep 30
+        fi
+fi
+
+#se maior ou igual a 3 dias
+if [ $diferenca -gt 259200 ];then
+    yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+    --align=center \
+    --field=$"<b>Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação.</b>
+    :LBL" \
+    --button=$" Desligar":0 \
+    --center --on-top --borders=20 --title=$"Versão Desatualizada" \
+    --window-icon=emblem-warning
+        if [ "$?" = "0" ];then
+            shutdown
+        else
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação."
+            sleep 30
+            shutdown
+        fi
+fi
