@@ -5,9 +5,9 @@ pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 license=('')
-url="https://github.com/biglinux/anti-ruscher"
+url="https://github.com/gitbarnabedikartola/anti-ruscher"
 pkgdesc="Anti-Ruscher system"
-source=('git+${url}')
+source=("git+${url}")
 sha256sums=('SKIP')
 install=${pkgname}.install
 
