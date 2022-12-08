@@ -1,8 +1,8 @@
-post_install() {
-        systemctl daemon-reload
-        systemctl enable anti-ruscher.service
-}
-
-pre_remove() {
-    systemctl disable anti-ruscher.service
-} 
+# post_install() {
+#         systemctl daemon-reload
+#         systemctl enable --global anti-ruscher.service
+# }
+# 
+# pre_remove() {
+#     systemctl disable anti-ruscher.service
+# } 

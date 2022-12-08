@@ -3,7 +3,7 @@ Description=Anti-Ruscher
 
 [Service]
 Type=simple
-StandardOutput=tty
+#StandardOutput=tty
 ExecStart=/usr/bin/anti-ruscher
 
 [Install]
