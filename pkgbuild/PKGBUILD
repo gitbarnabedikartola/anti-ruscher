@@ -8,6 +8,7 @@ pkgdesc="Anti-Ruscher system"
 source=("git+${url}")
 sha256sums=('SKIP')
 # install=${pkgname}.install
+depends=('pacman' 'grub-btrfs' 'systemd' 'bash' 'pamac-cli')
 
 package() {
     cp -r "${srcdir}/${pkgname}/usr/" "${pkgdir}/"
