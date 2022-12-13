@@ -36,9 +36,12 @@ if [ ! -d /run/miso ];then
         --button=$" OK":0 \
         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
         --window-icon=emblem-warning
-            if [ "$?" != "0" ];then
-                echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restam 1 dia de testes."
+            if [ "$?" = "0" ];then
+                shutdown
+            else
+                echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação."
                 sleep 30
+                shutdown
             fi
     # 1 dia
     elif [ $diferenca -gt 86400 ];then
@@ -49,9 +52,12 @@ if [ ! -d /run/miso ];then
         --button=$" OK":0 \
         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
         --window-icon=emblem-warning
-            if [ "$?" != "0" ];then
-                echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 1 dia, restam 2 dias de testes."
+            if [ "$?" = "0" ];then
+                shutdown
+            else
+                echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação."
                 sleep 30
+                shutdown
             fi
     fi
 fi
