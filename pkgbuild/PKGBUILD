@@ -7,7 +7,7 @@ url="https://github.com/gitbarnabedikartola/anti-ruscher"
 pkgdesc="Anti-Ruscher system"
 source=("git+${url}")
 sha256sums=('SKIP')
-install=${pkgname}.install
+# install=${pkgname}.install
 
 package() {
     cp -r "${srcdir}/${pkgname}/usr/" "${pkgdir}/"
