@@ -11,11 +11,11 @@ diferenca=$(($(date -d "$data_atual" +%s) - $(date -d "$data_etc" +%s)))
 
 #verificar se o sistema está instalado, se for live não rodar.
 if [ ! -d /run/miso ];then
-    #3 dias +
-    if [ $diferenca -gt 259200 ];then
+    #5 dias +
+    if [ $diferenca -gt 432000 ];then
         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
         --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação.</b>
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação.</b>
         :LBL" \
         --button=$" Desligar":0 \
         --center --on-top --borders=20 --title=$"Versão Desatualizada" \
@@ -25,15 +25,15 @@ if [ ! -d /run/miso ];then
         if [ "$?" = "0" ];then
             shutdown
         else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, por favor faça uma nova instalação."
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação."
             sleep 30
             shutdown
         fi
-    # 2 dias
-    elif [ $diferenca -gt 172800 ];then
+    # 4 dias
+    elif [ $diferenca -gt 345600 ];then
         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
         --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 2 dias, restam 1 dia de testes.</b>
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes.</b>
         :LBL" \
         --button=$" OK":0 \
         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
@@ -41,14 +41,44 @@ if [ ! -d /run/miso ];then
         if [ "$?" = "0" ];then
             exit 0
         else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restam 1 dia de testes."
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes."
+            sleep 30
+        fi
+    # 3 dias
+    elif [ $diferenca -gt 259200 ];then
+        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+        --align=center \
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes.</b>
+        :LBL" \
+        --button=$" OK":0 \
+        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+        --window-icon=emblem-warning
+        if [ "$?" = "0" ];then
+            exit 0
+        else
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes."
+            sleep 30
+        fi
+    # 2 dias
+    elif [ $diferenca -gt 172800 ];then
+        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+        --align=center \
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes.</b>
+        :LBL" \
+        --button=$" OK":0 \
+        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+        --window-icon=emblem-warning
+        if [ "$?" = "0" ];then
+            exit 0
+        else
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes."
             sleep 30
         fi
     # 1 dia
     elif [ $diferenca -gt 86400 ];then
         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
         --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 1 dia, restam 2 dias de testes.</b>
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de 1 dia, restam 4 dias de testes.</b>
         :LBL" \
         --button=$" OK":0 \
         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
@@ -56,7 +86,7 @@ if [ ! -d /run/miso ];then
         if [ "$?" = "0" ];then
             exit 0
         else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a 1 dia, restam 2 dias de testes."
+            echo -e $"${RED}Sistema de desenvolvimento instalado a 1 dia, restam 4 dias de testes."
             sleep 30
         fi
     fi
