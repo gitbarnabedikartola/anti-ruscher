@@ -8,14 +8,30 @@ data_etc=`ls -lact --full-time /etc |awk 'END {print $6,$7}' | cut -d "." -f1`
 data_atual=`date +%Y-%m-%d\ %H:%M:%S`
 #Comparar as datas
 diferenca=$(($(date -d "$data_atual" +%s) - $(date -d "$data_etc" +%s)))
+diasInstalado=$((${diferenca} / 86400))
 
 #verificar se o sistema está instalado, se for live não rodar.
 if [ ! -d /run/miso ];then
-    #5 dias +
-    if [ $diferenca -gt 432000 ];then
+#     for i in {1..20}; do 
+    
+    if [ "$diferenca" -lt "1728000" ];then
         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
         --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação.</b>
+        --field=$"<b>Sistema de desenvolvimento instalado a $((${diferenca} / 86400)) dias, restam $(($((1728000-${diferenca}))/86400+1)) dias de testes.</b>
+        :LBL" \
+        --button=$" OK":0 \
+        --center --on-top --borders=20 --title=$"Versão de Desenvolvimento" \
+        --window-icon=emblem-warning
+        if [ "$?" = "0" ];then
+            exit 0
+        else
+            echo -e $"${RED}Sistema de desenvolvimento instalado a $((${diferenca} / 86400)) dias, restam restam $(($((1728000-${diferenca}))/86400+1)) dias de testes."
+            sleep 30
+        fi
+    elif [ "$diferenca" -gt "1728000" ];then
+        ad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+        --align=center \
+        --field=$"<b>Sistema de desenvolvimento instalado a mais de $((${diferenca} / 86400)) dias, por favor faça uma nova instalação.</b>
         :LBL" \
         --button=$" Desligar":0 \
         --center --on-top --borders=20 --title=$"Versão Desatualizada" \
@@ -25,71 +41,93 @@ if [ ! -d /run/miso ];then
         if [ "$?" = "0" ];then
             shutdown
         else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação."
+            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de $((${diferenca} / 86400)) dias, por favor faça uma nova instalação."
             sleep 30
             shutdown
         fi
-    # 4 dias
-    elif [ $diferenca -gt 345600 ];then
-        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
-        --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes.</b>
-        :LBL" \
-        --button=$" OK":0 \
-        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
-        --window-icon=emblem-warning
-        if [ "$?" = "0" ];then
-            exit 0
-        else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes."
-            sleep 30
-        fi
-    # 3 dias
-    elif [ $diferenca -gt 259200 ];then
-        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
-        --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes.</b>
-        :LBL" \
-        --button=$" OK":0 \
-        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
-        --window-icon=emblem-warning
-        if [ "$?" = "0" ];then
-            exit 0
-        else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes."
-            sleep 30
-        fi
-    # 2 dias
-    elif [ $diferenca -gt 172800 ];then
-        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
-        --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes.</b>
-        :LBL" \
-        --button=$" OK":0 \
-        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
-        --window-icon=emblem-warning
-        if [ "$?" = "0" ];then
-            exit 0
-        else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes."
-            sleep 30
-        fi
-    # 1 dia
-    elif [ $diferenca -gt 86400 ];then
-        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
-        --align=center \
-        --field=$"<b>Sistema de desenvolvimento instalado a mais de 1 dia, restam 4 dias de testes.</b>
-        :LBL" \
-        --button=$" OK":0 \
-        --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
-        --window-icon=emblem-warning
-        if [ "$?" = "0" ];then
-            exit 0
-        else
-            echo -e $"${RED}Sistema de desenvolvimento instalado a 1 dia, restam 4 dias de testes."
-            sleep 30
-        fi
     fi
-fi
+    
+    
+    
+#     #5 dias +
+#     if [ $diferenca -gt 432000 ];then
+#         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+#         --align=center \
+#         --field=$"<b>Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação.</b>
+#         :LBL" \
+#         --button=$" Desligar":0 \
+#         --center --on-top --borders=20 --title=$"Versão Desatualizada" \
+#         --window-icon=emblem-warning &
+#         sleep 3
+#         killall yad
+#         if [ "$?" = "0" ];then
+#             shutdown
+#         else
+#             echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 5 dias, por favor faça uma nova instalação."
+#             sleep 30
+#             shutdown
+#         fi
+#     # 4 dias
+#     elif [ $diferenca -gt 345600 ];then
+#         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+#         --align=center \
+#         --field=$"<b>Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes.</b>
+#         :LBL" \
+#         --button=$" OK":0 \
+#         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+#         --window-icon=emblem-warning
+#         if [ "$?" = "0" ];then
+#             exit 0
+#         else
+#             echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 4 dias, restam 1 dia de testes."
+#             sleep 30
+#         fi
+#     # 3 dias
+#     elif [ $diferenca -gt 259200 ];then
+#         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+#         --align=center \
+#         --field=$"<b>Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes.</b>
+#         :LBL" \
+#         --button=$" OK":0 \
+#         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+#         --window-icon=emblem-warning
+#         if [ "$?" = "0" ];then
+#             exit 0
+#         else
+#             echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 3 dias, restam 2 dia de testes."
+#             sleep 30
+#         fi
+#     # 2 dias
+#     elif [ $diferenca -gt 172800 ];then
+#         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+#         --align=center \
+#         --field=$"<b>Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes.</b>
+#         :LBL" \
+#         --button=$" OK":0 \
+#         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+#         --window-icon=emblem-warning
+#         if [ "$?" = "0" ];then
+#             exit 0
+#         else
+#             echo -e $"${RED}Sistema de desenvolvimento instalado a mais de 2 dias, restam 3 dia de testes."
+#             sleep 30
+#         fi
+#     # 1 dia
+#     elif [ $diferenca -gt 86400 ];then
+#         yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+#         --align=center \
+#         --field=$"<b>Sistema de desenvolvimento instalado a mais de 1 dia, restam 4 dias de testes.</b>
+#         :LBL" \
+#         --button=$" OK":0 \
+#         --center --on-top --borders=20 --title=$"Versão desenvolvimento" \
+#         --window-icon=emblem-warning
+#         if [ "$?" = "0" ];then
+#             exit 0
+#         else
+#             echo -e $"${RED}Sistema de desenvolvimento instalado a 1 dia, restam 4 dias de testes."
+#             sleep 30
+#         fi
+#     fi
+# fi
 
 

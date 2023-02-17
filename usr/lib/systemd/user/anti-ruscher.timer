@@ -1,0 +1,9 @@
+ 
+[Unit]
+Description=Anti-Ruscher
+
+[Timer]
+OnUnitActiveSec=120min
+
+[Install]
+WantedBy=multi-user.target 
