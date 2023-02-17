@@ -46,7 +46,7 @@ if [ ! -d /run/miso ];then
             shutdown
         fi
     fi
-    
+fi
     
     
 #     #5 dias +
