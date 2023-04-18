@@ -29,14 +29,14 @@ if [ ! -d /run/miso ];then
             sleep 30
         fi
     elif [ "$diferenca" -gt "1728000" ];then
-        ad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
+        yad --image=emblem-warning --image-on-top --form --width=500 --height=100 --fixed \
         --align=center \
         --field=$"<b>Sistema de desenvolvimento instalado a mais de $((${diferenca} / 86400)) dias, por favor faça uma nova instalação.</b>
         :LBL" \
         --button=$" Desligar":0 \
         --center --on-top --borders=20 --title=$"Versão Desatualizada" \
         --window-icon=emblem-warning &
-        sleep 3
+        sleep 30
         killall yad
         if [ "$?" = "0" ];then
             shutdown
